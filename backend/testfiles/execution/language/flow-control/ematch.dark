@@ -707,6 +707,19 @@ module TypeErrors =
   // (match TestType.TwoArgs(1L, 2L) with
   //  | TwoArgs _ -> "wildcards allowed") = "wildcards allowed"
 
+  // <test>
+  // test is not in appropriate place; not to be merged
+  // does _ wildcard pattern match a DU that has a tuple?
+
+  // result: matches string "not expected"
+  // even though "expected" case is meant to match because of wildcard
+  type DU = | A | B of Bool * Bool
+
+  (match DU.B (true, false) with
+    | A -> "nope"
+    | B _ -> "expected"
+    | B (_, _) -> "not expected") = "expected"
+  // </test>
 
 module GuardClause =
   (match 5L with
